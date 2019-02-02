@@ -1,3 +1,5 @@
+> Authors: Łukasz Kałużny, Marek Grabarz
+
 # Azure Kubernetes Services 101 - Operating and securing a cluster
 
 Azure Kubernetes Service is fully managed Kubernetes orchestration service running in Azure. During the workshop, we will get you familiar with typical SysOps and SecOps tasks related to AKS Management.
