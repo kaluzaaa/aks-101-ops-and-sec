@@ -11,7 +11,7 @@ Some security updates, such as kernel updates, require a node reboot to finalize
 
 You can use your own workflows and processes to handle node reboots, or use `kured` to orchestrate the process. With `kured`, a DaemonSet is deployed that runs a pod on each node in the cluster. These pods in the DaemonSet watch for existence of the */var/run/reboot-required* file, and then initiates a process to reboot the nodes.
 
-## Kured (KUbernetes REboot Daemon) is a Kubernetes daemonset that
+## Kured (KUbernetes REboot Daemon)
 [Kured (KUbernetes REboot Daemon)](https://github.com/weaveworks/kured) is a Kubernetes daemonset that performs safe automatic node reboots when the need to do so is indicated by the package management system of the underlying OS.
 
 * Watches for the presence of a reboot sentinel e.g. `/var/run/reboot-required`
