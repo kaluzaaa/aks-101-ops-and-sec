@@ -6,7 +6,7 @@ Azure Kubernetes Service is fully managed Kubernetes orchestration service runni
 
 ## Modules
 
-[Prerequisites](labs/00-prerequisites/README.md)
+0. [Prerequisites](labs/00-prerequisites/README.md)
 1. [Deploy an Azure Kubernetes Service (AKS) cluster with AAD integration](labs/01-deploy-an-aks/README.md)
 2. [Implement RBAC with namespaces on cluster](labs/02-rbac/README.md)
 3. [Implement monitoring and logging in AKS](labs/03-monitoring-and-logging-in-aks/README.md)

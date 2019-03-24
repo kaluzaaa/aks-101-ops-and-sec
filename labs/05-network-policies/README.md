@@ -1,4 +1,4 @@
-# 5. Implement network policies
+# 5. Implementing network policies
 
 ## Network Policies
 
@@ -205,7 +205,7 @@ spec:
 
 Before you apply egress policies in the AKS cluster check if your pods have Internet connectivity.
 
-Open shell of selected pod and try to curl/wheg https://github.com url.
+Open shell of selected pod and try to curl/wget https://github.com url.
 
 ``` shell
 kubectl exec -it <name-of-pod> -n default -- /bin/sh
