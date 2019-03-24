@@ -44,7 +44,7 @@ Do not forget to "Grant permissions".
 Alternatively you can crate Application using following commands. Note following [issue](https://github.com/Azure/azure-cli/issues/7283)
 
 
-### 2. Create AAD client authentication
+### 2. Create AAD client application
 
 This `public client` will be used to authenticate users in kubectl.
 
@@ -72,7 +72,7 @@ az aks create \
   --name <my-cluster-name> \
   --generate-ssh-keys \
   --node-count 3 \
-  --kubernetes-version 1.12.5 \
+  --kubernetes-version 1.12.6 \
   --node-vm-size Standard_DS2_v2 \
   --aad-server-app-id <server-app-id> \
   --aad-server-app-secret <server-app-secret> \
