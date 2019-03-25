@@ -91,7 +91,7 @@ kubectl config current-context
 3.4 Grant Kubernetes admin permission to your AAD user.
 
 ```shell
-kubectl apply -f add-admin.yaml
+kubectl apply -f add-admin.yaml 
 ```
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -113,7 +113,7 @@ subjects:
 Get cluster credentials
 
 ```shell
-az aks get-credentials --resource-group <my-resource-group-name> --name <my-cluster-name>
+az aks get-credentials --resource-group <my-resource-group-name> --name <my-cluster-name> --overwrite-existing
 ```
 
 Test your access. Note you will be asked to perform device login. 
@@ -121,3 +121,7 @@ Test your access. Note you will be asked to perform device login.
 ```shell
 kubectl get pods --all-namespaces
 ```
+
+## Sources
+- https://kubernetes.io/docs/reference/access-authn-authz/authentication/
+- https://docs.microsoft.com/en-us/azure/aks/aad-integration

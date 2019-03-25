@@ -241,3 +241,8 @@ Did you notice all other services stopped working as well (Ingress)?
 kubectl delete -f policy-all-deny.yaml
 kubectl delete -f policy-bookinfo.yaml
 ```
+
+## Sources
+- https://kubernetes.io/docs/concepts/services-networking/network-policies
+- https://istio.io/docs/examples/bookinfo/
+- https://docs.microsoft.com/en-us/azure/virtual-network/kubernetes-network-policies
