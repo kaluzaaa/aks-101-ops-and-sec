@@ -44,11 +44,62 @@ az aks create \
 ```shell
 kubectl get daemonset omsagent -n kube-system
 ```
-or
+and
 
 ```shell
 az aks show -n <name-of-your-cluster> -g <resource-group-name> --query addonProfiles
 ```
 
+## Analyze logs
+
+1. Navigate to Azure Monitor
+2. Open Containers blade.
+3. Your AKS cluster should be set as moniotred. 
+4. Review logs and statitics by clicking on your cluster link and opening Monitoring\Insights blade.
+   
+   ![Insights](img/add-filter-option-01.png)
+
+## Access live logs from containers running in AKS pods
+
+1. To be able to view live logs of containers in `Azure Monitor for Containers` your AAD user need to be authorized to access pod/logs on cluster level. 
+
+    Apply following YAML file using `kubectl`:
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1 
+kind: ClusterRole 
+metadata: 
+   name: containerHealth-log-reader 
+rules: 
+   - apiGroups: [""] 
+     resources: ["pods/log"] 
+     verbs: ["get"] 
+--- 
+apiVersion: rbac.authorization.k8s.io/v1 
+kind: ClusterRoleBinding 
+metadata: 
+   name: containerHealth-read-logs-global 
+roleRef: 
+    kind: ClusterRole 
+    name: containerHealth-log-reader 
+    apiGroup: rbac.authorization.k8s.io 
+subjects: 
+   - kind: User 
+     name: <your-log-viewing-user> 
+     apiGroup: rbac.authorization.k8s.io
+```
+
+2. Client application you created in LAB 01 needs new redirect URI to be added. It will be used from Azure portal level to authenticate you before accessing logs. 
+
+    New reply URL is following: `https://ininprodeusuxbase.microsoft.com/*`
+
+    ![Redirect URIs](img/Redirect-URIs.png)
+
+3. Browse to Azure Monitor in portal and open `Containers`, then `User Pods`. Select voting app's frontend container and view live logs. Open voting app in browser and submit a few votes to see logs.
+   
+    ![Logs](img/LiveLogs.png)
+
 ## Sources
 - https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview
+- https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-live-logs
+- https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-analyze
