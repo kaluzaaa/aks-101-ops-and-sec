@@ -141,14 +141,14 @@ kubectl apply -f pod-reader-role-assignment.yaml
 2.4 Test access of user.
 
 ```shell
-az aks get-credentials --resource-group <resource-group-of-aks-cluster> --name <name-of-aks-cluster> --overwrite-existing
-az aks get pods -n default
-az aks logs <put-pod-name-here> -n default
+kubectl get-credentials --resource-group <resource-group-of-aks-cluster> --name <name-of-aks-cluster> --overwrite-existing
+kubectl get pods -n default
+kubectl logs <put-pod-name-here> -n default
 
 # actions below should fail
-az aks delete pod <put-pod-name-here> -n default
-az aks get services -n default
-az aks get pods -n kube-system
+kubectl delete pod <put-pod-name-here> -n default
+kubectl get services -n default
+kubectl get pods -n kube-system
 ```
 
 ## Sources

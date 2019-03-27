@@ -50,12 +50,12 @@ and
 az aks show -n <name-of-your-cluster> -g <resource-group-name> --query addonProfiles
 ```
 
-## Analyze logs
+## Analyze Cluter metrics
 
 1. Navigate to Azure Monitor
 2. Open Containers blade.
 3. Your AKS cluster should be set as moniotred. 
-4. Review logs and statitics by clicking on your cluster link and opening Monitoring\Insights blade.
+4. Review metrics and statitics by clicking on your cluster link and opening Monitoring\Insights blade.
    
    ![Insights](img/add-filter-option-01.png)
 
