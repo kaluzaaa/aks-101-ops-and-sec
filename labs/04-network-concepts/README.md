@@ -3,9 +3,10 @@
 How to check connectivity during network lab
 
 ```bash
-kubectl run -i -t busybox-curl --image=yauritux/busybox-curl --restart=Never```
-
+kubectl run -i -t busybox-curl --image=yauritux/busybox-curl --restart=Never
 ```
+
+```bash
 curl -v <ip>:<port>
 ```
 
@@ -31,7 +32,7 @@ az network vnet subnet list \
 3. Deploy AKS with CNI
 
 ```bash
-az aks create -g aks02-XX -n aks02 --kubernetes-version 1.12.6 \
+az aks create -g aks02-XX -n aks02 --kubernetes-version 1.12.5 \
     --network-plugin azure \
     --vnet-subnet-id <subnet-id> \
     --docker-bridge-address 172.17.0.1/16 \
