@@ -90,7 +90,7 @@ Steps here are optional, because you can always use Azure Cloud Shell directly f
 2. Install `kubectl` on your desktop using command below. Remember to properly set PATH env - follow instructions in your conssole.
 
 ```shell
-as aks install-cli
+az aks install-cli
 ```
 
 3. For Windows install `chocolatey` package manager from [here](https://chocolatey.org/install).
