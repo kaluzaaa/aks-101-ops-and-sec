@@ -79,20 +79,12 @@ When Kubernetes creates a Pod it assigns one of these QoS classes to the Pod:
 - Burstable
 - BestEffort
 
-```yaml
-ToDo
-```
-
 #### Guaranteed QoS class
 
 For a Pod to be given a QoS class of Guaranteed:
 
 - Every Container in the Pod must have a memory limit and a memory request, and they must be the same.
 - Every Container in the Pod must have a CPU limit and a CPU request, and they must be the same.
-
-```yaml
-ToDo
-```
 
 #### Burstable QoS class
 
@@ -101,19 +93,153 @@ A Pod is given a QoS class of Burstable if:
 - The Pod does not meet the criteria for QoS class Guaranteed.
 - At least one Container in the Pod has a memory or CPU request.
 
-```yaml
-ToDo
-```
-
 #### BestEffort QoS class
 
 For a Pod to be given a QoS class of BestEffort, the Containers in the Pod must not have any memory or CPU limits or requests.
 
-```yaml
-ToDo
-```
+## Limit resources for container on namespace
+
+This lab creates namespaces that reflect a representative example of an organization's environments. In this case dev, uat and prod. We will also apply the appopriate permissions, limits and resource quotas to each of the namespaces.
+
+1. Create three namespaces
+
+    ```bash
+    # Create namespaces
+    kubectl apply -f create-namespaces.yaml
+
+    # Look at namespaces
+    kubectl get ns
+    ```
+
+2. Assign CPU, memory and storage limits to namespaces
+
+    ```bash
+    # Create namespace limits
+    kubectl apply -f namespace-limitranges.yaml
+
+    # Get list of namespaces and drill into one
+    kubectl get ns
+    kubectl describe ns uat
+    ```
+
+3. Assign CPU, Memory and Storage Quotas to Namespaces
+
+    ```bash
+    # Create namespace quotas
+    kubectl apply -f namespace-quotas.yaml
+
+    # Get list of namespaces and drill into one
+    kubectl get ns
+    kubectl describe ns dev
+    ```
+
+4. Test out Limits and Quotas in **dev** Namespace
+
+    ```bash
+    # Test Limits - Forbidden due to assignment of CPU too low
+    kubectl run nginx-limittest --image=nginx --restart=Never --replicas=1 --port=80 --requests='cpu=100m,memory=256Mi' -n dev
+
+    # Test Limits - Pass due to automatic assignment within limits via defaults
+    kubectl run nginx-limittest --image=nginx --restart=Never --replicas=1 --port=80 -n dev
+    
+    # Check running pod and dev Namespace Allocations
+    kubectl get po -n dev
+    kubectl describe ns dev
+    
+    # Test Quotas - Forbidden due to memory quota exceeded
+    kubectl run nginx-quotatest --image=nginx --restart=Never --replicas=1 --port=80 --requests='cpu=500m,memory=1Gi' -n dev
+    
+    # Test Quotas - Pass due to memory within quota
+    kubectl run nginx-quotatest --image=nginx --restart=Never --replicas=1 --port=80 --requests='cpu=500m,memory=512Mi' -n dev
+    
+    # Check running pod and dev Namespace Allocations
+    kubectl get po -n dev
+    kubectl describe ns dev
+    ```
+
+5. Clean up limits, quotas, pods
+
+    ```bash
+    kubectl describe ns dev
+    kubectl describe ns uat
+    kubectl describe ns prod
+    ```
+
 
 ## Implement cluster autoscaler
 
 > Graphics by @wbuchwalter - [Kubernetes-acs-engine-autoscaler](https://github.com/wbuchwalter/Kubernetes-acs-engine-autoscaler)
 ![](img/autoscale-process.png)
+
+**Deploy unschedulable pods - lack of system resources**
+
+```bash
+kubectl run nginx-scale --image=nginx --replicas=5 --port=80 --requests='cpu=500m,memory=4Gi'
+```
+
+**Check status of pods**
+
+```bash
+kubectl get pods
+```
+
+1. Create the service principal for DNS by AKS.
+
+```bash
+az ad sp create-for-rbac -n ClusterAutoscalerXY --skip-assignment
+```
+
+2. Assign the rights for the service principal.
+
+```bash
+az role assignment create --assignee http://ClusterAutoscalerXY --role contributor --resource-group aks02-xy
+
+az role assignment create --assignee http://ClusterAutoscalerXY --role contributor --resource-group <mc-aks-resource-group>
+```
+
+### Deploy cluster autoscaler
+
+1. Prepare cluster-autoscaler.yaml (Secret/cluster-autoscaler-azure). For base64 you can use [base64encode](https://www.base64encode.org/) or in bash -> `echo -n <content> | base64`
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cluster-autoscaler-azure
+  namespace: kube-system
+data:
+  ClientID: <base64-encoded-client-id>
+  ClientSecret: <base64-encoded-client-secret>
+  ResourceGroup: <base64-encoded-resource-group>
+  SubscriptionID: <base64-encode-subscription-id>
+  TenantID: <base64-encoded-tenant-id>
+  VMType: QUtT
+  ClusterName: <base64-encoded-aks-name>
+  NodeResourceGroup: <base64-encoded-mc-aks-resource-group>
+```
+
+2. Deploy cluster-autoscaler.yaml.
+
+```bash
+kubectl apply -f cluster-autoscaler.yaml
+```
+
+3. Check cluster-autoscaler logs
+
+```bash
+kubectl get pods -n kube-system
+kubectl logs -f -n kube-system <cluster-autoscaler-pod-name>
+```
+
+4. Delete nginx-scale deployment
+
+```bash
+kubectl delete deployments nginx-scale
+```
+
+5. Check cluster-autoscaler logs
+
+```bash
+kubectl get pods -n kube-system
+kubectl logs -f -n kube-system <cluster-autoscaler-pod-name>
+```
