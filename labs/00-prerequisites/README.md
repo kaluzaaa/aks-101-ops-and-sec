@@ -100,6 +100,6 @@ as aks install-cli
 5. Login to `az CLI` using account you created.
    
 ```shell
-az login
+az login --use-device-code
 az account set --subscription <ID-of-your-Azure-subscription>
 ```
