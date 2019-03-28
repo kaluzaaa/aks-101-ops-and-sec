@@ -13,6 +13,6 @@ Azure Kubernetes Service is fully managed Kubernetes orchestration service runni
 4. [Explain network concepts for applications in AKS](labs/04-network-concepts/README.md)
 5. [Implement network policies](labs/05-network-policies/README.md)
 6. [Implement Ingress Controller with Let's encrypt SSL certificates](labs/06-ingress-controller/README.md)
-7. [Configure DNS auto registration of application](labs/08-limit-resources-and-cluster-autoscaler/README.md)
-8. [Limit resources for container and implement cluster autoscaler](labs/07-dns-auto-registration/README.md)
+7. [Configure DNS auto registration of application](labs/07-dns-auto-registration/README.md)
+8. [Limit resources for container and implement cluster autoscaler](labs/08-limit-resources-and-cluster-autoscaler/README.md)
 9. [Apply security and kernel updates to nodes in Azure Kubernetes Service (AKS)](labs/09-nodes-updates/README.md)
