@@ -97,6 +97,7 @@ az aks install-cli
    
 ~~4. Install `helm client` using following [instruction](https://helm.sh/docs/using_helm/#installing-the-helm-client).~~
 
+
 5. Login to `az CLI` using account you created.
    
 ```shell
