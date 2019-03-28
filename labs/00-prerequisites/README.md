@@ -93,9 +93,9 @@ Steps here are optional, because you can always use Azure Cloud Shell directly f
 az aks install-cli
 ```
 
-3. For Windows install `chocolatey` package manager from [here](https://chocolatey.org/install).
+~~3. For Windows install `chocolatey` package manager from [here](https://chocolatey.org/install).~~
    
-4. Install `helm client` using following [instruction](https://helm.sh/docs/using_helm/#installing-the-helm-client).
+~~4. Install `helm client` using following [instruction](https://helm.sh/docs/using_helm/#installing-the-helm-client).~~
 
 5. Login to `az CLI` using account you created.
    
