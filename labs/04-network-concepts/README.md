@@ -1,5 +1,14 @@
 # 4. Explain network concepts for applications in AKS
 
+How to check connectivity during network lab
+
+```bash
+kubectl run -i -t busybox-curl --image=yauritux/busybox-curl --restart=Never```
+
+```
+curl -v <ip>:<port>
+```
+
 ## Deploy AKS with CNI
 
 1. Deploy virtual network
