@@ -1,7 +1,5 @@
 # 9. Apply security and kernel updates to nodes in Azure Kubernetes Service (AKS)
 
-ToDo - https://docs.microsoft.com/en-us/azure/aks/node-updates-kured
-
 ## Understand the AKS node update experience
 In an AKS cluster, your Kubernetes nodes run as Azure virtual machines (VMs). These Linux-based VMs use an Ubuntu image, with the OS configured to automatically check for updates every night. If security or kernel updates are available, they are automatically downloaded and installed.
 
@@ -19,23 +17,30 @@ You can use your own workflows and processes to handle node reboots, or use `kur
 * Optionally defers reboots in the presence of active Prometheus alerts or selected pods
 * Cordons & drains worker nodes before reboot, uncordoning them after
 
-## Lab
+## Deploy Kured
 
 1. Install Kured
 
 ```bash
-kubectl apply -f ToDo.yaml
+kubectl apply -f kured.yaml
 ```
 
-2. Verify
+2. Verify Kured deployment
 
 ```
 kubectl get pods -n kube-system -o wide
 ```
 
-3. Open log
+3. Check node KERNEL-VERSION
+
+```bash
+kubectl get nodes -o wide
+```
+
+3. Open Kured log
 
 ```
+kubectl get pods -n kube-system -o wide 
 kubectl logs -n kube-system -f <POD_NAME>
 ```
 
@@ -46,3 +51,7 @@ sudo touch /var/run/reboot-required
 ```
 
 5. Follow the results in pod logs from step 3.
+
+Links:
+- [Apply security and kernel updates to nodes in Azure Kubernetes Service (AKS)](https://docs.microsoft.com/en-us/azure/aks/node-updates-kured)
+- [Kubernetes Reboot Daemon](https://github.com/weaveworks/kured)
