@@ -14,13 +14,24 @@ az account show --query "[name]" -o tsv
 az network dns zone create -g aks02-XY -n aks02-XY.<subscription name>.becomeazure.ninja
 ```
 
-3. Create the service principal for DNS by AKS.
+3. Get DNS Name server
+
+az network dns zone show -g aks02-xy -n aks02-xx.<subscription name>.becomeazure.ninja --query "nameServers" -o tsv
+
+4. Set DNS Subnet delegation for each record form step 3.
+
+```bash
+az network dns record-set ns add-record -g dns -z <subscription name>.becomeazure.ninja \
+    -n aks02-xy -d <name server>
+```
+
+4. Create the service principal for DNS by AKS.
 
 ```bash
 az ad sp create-for-rbac -n ExternalDnsServicePrincipalXY --skip-assignment
 ```
 
-4. Assign the rights for the service principal.
+5. Assign the rights for the service principal.
 
 ```bash
 az role assignment create --assignee http://ExternalDnsServicePrincipalXY --role contributor --resource-group aks02-xy
